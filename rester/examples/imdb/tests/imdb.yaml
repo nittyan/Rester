@@ -2,6 +2,7 @@ name: "ImdbAPI"
 globals:
   variables:
     baseApiUrl: "http://www.omdbapi.com"
+    imdbID: "tt2294629"
 
 testSteps:
   - name: "Get Movie By Title"
