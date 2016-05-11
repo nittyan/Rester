@@ -85,8 +85,12 @@ class TestCaseExec(object):
 
             url = self.case.variables.expand(test_step.apiUrl)
             self.logger.debug('Evaluated URL : %s', url)
-            json = {k: v for k, v in test_step.json.items().items()}
-            response_wrapper = http_client.request(url, method, headers, params, is_raw, {"json": json})
+            extra = {}
+            json_param = test_step.get('json', {})
+            if json_param:
+                json = {k: v for k, v in test_step.json.items().items()}
+                extra['json'] = json
+            response_wrapper = http_client.request(url, method, headers, params, is_raw, extra)
 
             # expected_status = getattr(getattr(test_step, 'asserts'), 'status', 200)
             # if response_wrapper.status != expected_status:
