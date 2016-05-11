@@ -11,7 +11,7 @@ class HttpClient(object):
     def __init__(self, **kwargs):
         self.extra_request_opts = kwargs
 
-    def request(self, api_url, method, headers, params, is_raw):
+    def request(self, api_url, method, headers, params, is_raw, extra={}):
         self.logger.info(
             '\n Invoking REST Call... api_url: %s, method: %s, headers %s : ', api_url, method, headers)
 
@@ -20,6 +20,7 @@ class HttpClient(object):
         except AttributeError:
             self.logger.error('undefined HTTP method!!! %s', method)
             raise
+        self.extra_request_opts.update(extra)
         response = func(api_url, headers=headers, params=params, **self.extra_request_opts)
 
         if is_raw or 'application/json' not in response.headers['content-type']:
